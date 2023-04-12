@@ -2,6 +2,9 @@ package com.vv.server.core;
 
 
 
+import com.vv.common.constant.RpcConstant;
+import com.vv.server.decoder.CalculateResponseDecoder;
+import com.vv.server.encoder.CalculateRequestEncoder;
 import com.vv.server.handler.RpcServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -15,17 +18,21 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ServiceBs extends Thread{
+public class RpcServer extends Thread{
 
     private final int port;
 
-    public ServiceBs(int port){
+    public RpcServer(int port){
         this.port = port;
+    }
+
+    public RpcServer(){
+        this(RpcConstant.PORT);
     }
 
     @Override
     public void run() {
-        log.info("RPC server start...");
+        log.info("RPC 服务启动...");
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -36,7 +43,9 @@ public class ServiceBs extends Thread{
                         @Override
                         protected void initChannel(Channel channel) throws Exception {
                             channel.pipeline()
-                                    .addLast(new LoggingHandler(LogLevel.ERROR))
+//                                    .addLast(new LoggingHandler(LogLevel.DEBUG))
+                                    .addLast(new CalculateResponseDecoder())
+                                    .addLast(new CalculateRequestEncoder())
                                     .addLast(new RpcServerHandler());
                         }
                     })
@@ -55,6 +64,6 @@ public class ServiceBs extends Thread{
     }
 
     public static void main(String[] args) {
-        new ServiceBs(9527).start();
+        new RpcServer(9527).start();
     }
 }

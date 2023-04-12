@@ -1,6 +1,9 @@
 package com.vv.client.core;
 
+import com.vv.client.decoder.CalculateResponseDecoder;
+import com.vv.client.encoder.CalculateRequestEncoder;
 import com.vv.client.handler.RpcClientHandler;
+import com.vv.common.constant.RpcConstant;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -10,11 +13,15 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ClientBs extends Thread{
+public class RpcClient extends Thread{
     private final int connectPort;
 
-    ClientBs(int connectPort){
+    public RpcClient(int connectPort){
         this.connectPort = connectPort;
+    }
+
+    public RpcClient(){
+        this(RpcConstant.PORT);
     }
 
     @Override
@@ -33,7 +40,9 @@ public class ClientBs extends Thread{
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline()
-                                    .addLast(new LoggingHandler(LogLevel.ERROR))
+//                                    .addLast(new LoggingHandler(LogLevel.DEBUG))
+                                    .addLast(new CalculateRequestEncoder())
+                                    .addLast(new CalculateResponseDecoder())
                                     .addLast(new RpcClientHandler());
                         }
                     })
@@ -51,6 +60,6 @@ public class ClientBs extends Thread{
     }
 
     public static void main(String[] args) {
-        new ClientBs(9527).start();
+        new RpcClient(9527).start();
     }
 }
