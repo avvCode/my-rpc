@@ -27,3 +27,11 @@ Remote Procedure Call 远程过程调用
 之前是将方法调用写在Client的channelHandler中
 
 现在将方法调用写在外面，测试真实调用场景
+
+# Commit4
+
+Netty底层的通信都是基于ByteBuf来传递消息的
+
+想要将调用方法抽象成框架，就不能每个方法都去写一个channelHandler，所以就需要选择序列化对象
+
+这里利用字节数组作为序列化对象

@@ -1,10 +1,7 @@
 package com.vv.server.core;
 
 
-
 import com.vv.common.constant.RpcConstant;
-import com.vv.server.decoder.CalculateResponseDecoder;
-import com.vv.server.encoder.CalculateRequestEncoder;
 import com.vv.server.handler.RpcServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -13,8 +10,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -43,9 +38,7 @@ public class RpcServer extends Thread{
                         @Override
                         protected void initChannel(Channel channel) throws Exception {
                             channel.pipeline()
-//                                    .addLast(new LoggingHandler(LogLevel.DEBUG))
-                                    .addLast(new CalculateResponseDecoder())
-                                    .addLast(new CalculateRequestEncoder())
+
                                     .addLast(new RpcServerHandler());
                         }
                     })

@@ -1,17 +1,16 @@
 package com.vv.client.core;
 
-import com.vv.client.decoder.CalculateResponseDecoder;
-import com.vv.client.encoder.CalculateRequestEncoder;
+import com.github.houbb.json.bs.JsonBs;
 import com.vv.client.handler.RpcClientHandler;
 import com.vv.common.constant.RpcConstant;
 import com.vv.common.model.CalculateRequest;
 import com.vv.common.model.CalculateResponse;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -46,9 +45,6 @@ public class RpcClient extends Thread{
                         protected void initChannel(Channel ch) throws Exception {
                             channelHandler = new RpcClientHandler();
                             ch.pipeline()
-//                                    .addLast(new LoggingHandler(LogLevel.DEBUG))
-                                    .addLast(new CalculateRequestEncoder())
-                                    .addLast(new CalculateResponseDecoder())
                                     .addLast(channelHandler);
                         }
                     })
@@ -72,7 +68,10 @@ public class RpcClient extends Thread{
         log.info("RPC 客户端发送请求，request: {}", request);
 
         // 关闭当前线程，以获取对应的信息
-        channel.writeAndFlush(request);
+        //转换字节数组
+        byte[] requestBytes = JsonBs.serializeBytes(request);
+        ByteBuf requestByteBuf = Unpooled.copiedBuffer(requestBytes);
+        channel.writeAndFlush(requestByteBuf);
         channel.closeFuture().syncUninterruptibly();
 
         return channelHandler.getResponse();
