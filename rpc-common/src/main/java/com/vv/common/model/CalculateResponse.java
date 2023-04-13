@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.io.Serializable;
 @Data
 @AllArgsConstructor
@@ -21,5 +22,11 @@ public class CalculateResponse implements Serializable {
      */
     private int sum;
 
-    //Getter & Setter
+    @Override
+    public String toString() {
+        return "CalculateResponse{" +
+                "success=" + success +
+                ", sum=" + sum +
+                '}';
+    }
 }

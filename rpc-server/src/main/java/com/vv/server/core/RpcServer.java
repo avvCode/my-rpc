@@ -62,8 +62,4 @@ public class RpcServer extends Thread{
             bossGroup.shutdownGracefully();
         }
     }
-
-    public static void main(String[] args) {
-        new RpcServer(9527).start();
-    }
 }

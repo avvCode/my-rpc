@@ -19,4 +19,11 @@ Remote Procedure Call 远程过程调用
 # Commit 2
 尝试使用远程调用方法
 实现远程调用计算接口Calculate的实现
+被动写在Channel中的
 ![调用过程](./Assert/img.png)
+# Commit 3
+尝试使用客户端主动调用服务端方法
+
+之前是将方法调用写在Client的channelHandler中
+
+现在将方法调用写在外面，测试真实调用场景

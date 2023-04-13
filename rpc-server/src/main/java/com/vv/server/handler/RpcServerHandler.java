@@ -19,10 +19,14 @@ public class RpcServerHandler extends SimpleChannelInboundHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         final String id = ctx.channel().id().asLongText();
+
+        //接收到request
         CalculateRequest request = (CalculateRequest) msg;
         log.info("[server] receive from channel: {} request {}",id,request);
+        //调用本地实现
         CalculatorService calculatorService = new CalculatorService();
         CalculateResponse response = calculatorService.sum(request);
+        //实现后将结果返回客户端
         ctx.writeAndFlush(response);
         log.info("[Server] channel {} response {}", id, response);
     }
