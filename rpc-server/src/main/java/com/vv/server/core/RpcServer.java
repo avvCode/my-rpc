@@ -10,6 +10,9 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,7 +41,10 @@ public class RpcServer extends Thread{
                         @Override
                         protected void initChannel(Channel channel) throws Exception {
                             channel.pipeline()
-
+                                    // 解码 bytes=>resp
+                                    .addLast(new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)))
+                                    // request=>bytes
+                                    .addLast(new ObjectEncoder())
                                     .addLast(new RpcServerHandler());
                         }
                     })

@@ -1,4 +1,4 @@
-package com.vv.common.model;
+package com.vv.common.domain;
 
 import java.io.Serializable;
 

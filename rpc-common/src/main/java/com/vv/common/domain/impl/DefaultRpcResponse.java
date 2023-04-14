@@ -1,7 +1,7 @@
-package com.vv.common.model.impl;
+package com.vv.common.domain.impl;
 
-import com.vv.common.model.BaseRpc;
-import com.vv.common.model.RpcResponse;
+import com.vv.common.domain.BaseRpc;
+import com.vv.common.domain.RpcResponse;
 
 public class DefaultRpcResponse implements RpcResponse {
     /**

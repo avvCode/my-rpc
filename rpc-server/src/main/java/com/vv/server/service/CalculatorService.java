@@ -1,7 +1,7 @@
 package com.vv.server.service;
 
-import com.vv.common.model.CalculateRequest;
-import com.vv.common.model.CalculateResponse;
+import com.vv.common.domain.CalculateRequest;
+import com.vv.common.domain.CalculateResponse;
 import com.vv.common.service.Calculator;
 
 /**

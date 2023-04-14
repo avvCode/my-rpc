@@ -3,14 +3,17 @@ package com.vv.client.core;
 import com.github.houbb.json.bs.JsonBs;
 import com.vv.client.handler.RpcClientHandler;
 import com.vv.common.constant.RpcConstant;
-import com.vv.common.model.CalculateRequest;
-import com.vv.common.model.CalculateResponse;
+import com.vv.common.domain.CalculateRequest;
+import com.vv.common.domain.CalculateResponse;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -45,6 +48,10 @@ public class RpcClient extends Thread{
                         protected void initChannel(Channel ch) throws Exception {
                             channelHandler = new RpcClientHandler();
                             ch.pipeline()
+                                    // 解码 bytes=>resp
+                                    .addLast(new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)))
+                                    // 编码 request=>bytes
+                                    .addLast(new ObjectEncoder())
                                     .addLast(channelHandler);
                         }
                     })

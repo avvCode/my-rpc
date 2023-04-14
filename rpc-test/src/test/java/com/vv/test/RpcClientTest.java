@@ -1,9 +1,8 @@
 package com.vv.test;
 
-import com.vv.client.core.RpcClient;
 import com.vv.client.proxy.CalculatorProxy;
-import com.vv.common.model.CalculateRequest;
-import com.vv.common.model.CalculateResponse;
+import com.vv.common.domain.CalculateRequest;
+import com.vv.common.domain.CalculateResponse;
 import com.vv.common.service.Calculator;
 
 

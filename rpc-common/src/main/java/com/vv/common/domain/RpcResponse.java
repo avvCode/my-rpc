@@ -1,4 +1,4 @@
-package com.vv.common.model;
+package com.vv.common.domain;
 
 /**
  * 基础响应格式

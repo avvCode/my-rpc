@@ -1,9 +1,8 @@
 package com.vv.server.handler;
 
 import com.github.houbb.json.bs.JsonBs;
-import com.vv.common.model.CalculateRequest;
-import com.vv.common.model.CalculateResponse;
-import com.vv.common.service.Calculator;
+import com.vv.common.domain.CalculateRequest;
+import com.vv.common.domain.CalculateResponse;
 import com.vv.server.service.CalculatorService;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
